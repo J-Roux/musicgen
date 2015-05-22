@@ -14,7 +14,11 @@ public class SequenceGenerator {
 		Integer note = new Integer(0);
 		Integer[] temp = new Integer[notes.size()];
 	    for(int i = 0; i <  count;  i++) {
+	    	//System.out.println("Before  " + note);
+	    	//System.out.println("Before  " + notes);
 	    	note = score.nextNote(notes.toArray(temp));
+	    	//System.out.println("After   " + note);
+	    	//System.out.println("After   " + notes);
 	    	sequence.add(note);
 	    	notes.add(note);
 	    	notes.remove(0);	    	

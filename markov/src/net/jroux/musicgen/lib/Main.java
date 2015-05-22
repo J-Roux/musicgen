@@ -23,7 +23,7 @@ public class Main {
 	
 	private static ArrayList<Integer> getStartingSequence() {
 		ArrayList<Integer> notes = new ArrayList<Integer>();
-		notes.add((Integer)57);
+		notes.add((Integer)75);
 //		notes.add((Integer)47);
 		return notes;
 	}
@@ -39,13 +39,13 @@ public class Main {
 			final MidiChannel[] channels = synthesizer.getChannels();
 			for (int i = 0; i < Config.sequenceLength; i++) {
 				
-				channels[0].noteOn(midiSequence.get(i), 127);
+				channels[0].noteOn(midiSequence.get(i) + 1 , 127);
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 		    	}
-				channels[0].noteOff(midiSequence.get(i));
+				channels[0].noteOff(midiSequence.get(i) + 1);
 			}
 		} catch (MidiUnavailableException e) {
 			// TODO Auto-generated catch block

@@ -2,7 +2,7 @@ package net.jroux.musicgen.lib;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+
 
 public class Score {
 	
@@ -30,13 +30,13 @@ public class Score {
 			temp += (N - 1) * previos[i];
 		}
 		temp += previos[previos.length - 1];
-		return temp;
+		return temp ;
 	}
 	
 	public void normalizeMatrix() {
 		for (int i = 0; i < this.size; i++) {
-			int sum = sumAll(i);
-			if (sum !=0) {
+			double sum = sumAll(i);
+			if (sum !=0) {	
 				for (int j = 0; j < matrix[i].length; j++) {
 					matrix[i][j] /= sum;
 				}
@@ -44,26 +44,59 @@ public class Score {
 		}
 	}
 
-	private int sumAll(int pos) {
-		int sum = 0;
+	private double sumAll(int pos) {
+		double sum = 0;
 		for(int i = 0; i < 128; sum += matrix[pos][i++]);
 		return sum;
 	}
 	
 	public int nextNote(Integer previos[]) {
 		double rnd = Math.random();
-		double sum = 0;
+    	double sum = 0;
 		int index = createIndex(previos);
-		ArrayList<Double> temp = new ArrayList<Double>();
-		for(int i = 0;  i < matrix[0].length; i++) {
-			temp.add(matrix[index][i]);
-		}
-	    double max = Collections.max(temp);
-	    sum = rnd * max;
+		double max = findMaxElement(index);
+		double min = findMinPositiveElement(index); 
+	    sum = rnd * (max - min) + min;
+	    ArrayList<Double> temp = new ArrayList<Double>();
 		for(int j = 0; j < matrix[0].length; j++) {
-			temp.set(j, Math.pow(sum - matrix[index][j], 2));
+			temp.add( Math.pow(matrix[index][j] - sum, 2));
 		}
-		return temp.indexOf(Collections.min(temp));
+		int newIndex = findIndexMinValue(temp);
+		return newIndex;
 	}	 
+	
+	private double findMinPositiveElement(int index) {
+		double min = 1;
+		for ( int i = 1; i < matrix[index].length; i++) {
+		    if ( matrix[index][i] < min && matrix[index][i] > 0) {
+		      min = matrix[index][i];
+		    }
+		}
+		return min;
+	}
+
+	private int findIndexMinValue(ArrayList<Double> temp) {
+		double currentValue = temp.get(0); 
+		int smallestIndex = 0;
+		for (int j=1; j < temp.size(); j++) {
+			if (temp.get(j) <= currentValue){ 
+				currentValue = temp.get(j);
+				smallestIndex = j;
+			}
+		}
+		return smallestIndex;
+	}
+
+	private double findMaxElement(int index) {
+		double max = matrix[index][0];
+		for ( int i = 1; i < matrix[index].length; i++) {
+		    if ( matrix[index][i] > max) {
+		      max = matrix[index][i];
+		    }
+		}
+		return max;
+	}
+
+	
 	 
 }

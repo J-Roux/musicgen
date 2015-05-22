@@ -29,6 +29,7 @@ public class Teacher {
 						ShortMessage shortMessage = (ShortMessage) message;
 						if (shortMessage.getCommand() == NOTE_ON) {
 							int key = shortMessage.getData1();
+							key--;
 							if (range > -1) {
 								range--;
 								previos.add(key);
