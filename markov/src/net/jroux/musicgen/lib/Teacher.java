@@ -15,9 +15,10 @@ import javax.sound.midi.Track;
 public class Teacher {
 	private static final int NOTE_ON = 0x90;
 	
+	public static ArrayList<Integer> startSequence = new ArrayList<Integer>();
+	
 	public static void teach(String filePath, Score score) {
 		try {
-			int a = 0;
 			Sequence  sequence = MidiSystem.getSequence(new File(System.getProperty("user.dir") + filePath));
 			ArrayList<Integer> previos = new ArrayList<Integer>();
 			int range = score.range;
@@ -33,17 +34,17 @@ public class Teacher {
 							if (range > -1) {
 								range--;
 								previos.add(key);
+								if(range >= 0)
+									startSequence.add(key);
 							} else {
 								score.updateWeights(previos.toArray(new Integer[previos.size()]));
 								previos.remove(0);
 								previos.add(key);
-								a++;
 							}
 						}
 					}
 				}
 			}
-			System.out.println(a);
 		} catch (InvalidMidiDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

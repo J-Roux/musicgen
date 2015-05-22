@@ -8,29 +8,24 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 
 public class Main {
+	
 	private static Score teachNewScoreObj() {
 		Score score = new Score(Config.learnerMemory);
 		
-		
-//		for (String samplePath : Config.learningSaples) {
-//			Teacher.teach(samplePath, score);
-//		}
-		Teacher.teach(Config.learningSaples[0], score);
+		Teacher.teach(Config.learningSaples[7], score);
 		
 		score.normalizeMatrix();
 		return score;		
 	}
 	
 	private static ArrayList<Integer> getStartingSequence() {
-		ArrayList<Integer> notes = new ArrayList<Integer>();
-		notes.add((Integer)75);
-//		notes.add((Integer)47);
-		return notes;
+		return Teacher.startSequence ;
 	}
 	
 	public static void main(String[] args) {
 	    Score score = teachNewScoreObj();
 		ArrayList<Integer> sequence = getStartingSequence();
+		System.out.println(sequence.toString());
 		SequenceGenerator gen = new SequenceGenerator(sequence);
 		ArrayList<Integer> midiSequence = gen.generate(Config.sequenceLength, score);
 		try {

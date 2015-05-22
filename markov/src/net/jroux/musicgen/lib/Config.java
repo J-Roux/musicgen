@@ -9,6 +9,9 @@ public class Config {
 			"/resources/beeth9-1.mid",
 			"/resources/beeth9-2.mid",
 			"/resources/beeth9-3.mid",
+			"/resources/liz_et3.mid",
+			"/resources/liz_rhap02.mid",
+			"/resources/liz_rhap09.mid"
 	};
 	
 	static int sequenceLength = 100;
