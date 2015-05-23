@@ -12,16 +12,18 @@ public class Score {
 	
 	private final int N = 128;
 	
-	public double matrix[][];
+	private Matrix matrix;
 	
 	public Score(int range){
 		this.range = range;
 		this.size = (int)Math.pow(N, this.range); 
-		this.matrix = new double[size][N];
+		this.matrix = new Matrix(size, N);
 	}
 	
 	public void updateWeights(Integer previos[]){
-		matrix[createIndex(Arrays.copyOfRange(previos, 0, previos.length - 1))][previos[previos.length - 1]]++;
+		int i = createIndex(Arrays.copyOfRange(previos, 0, previos.length - 1));
+		int j = previos[previos.length - 1];
+		matrix.set(i, j , matrix.get(i, j) + 1);
 	}
 
 	private int createIndex(Integer[] previos) {
@@ -34,47 +36,24 @@ public class Score {
 	}
 	
 	public void normalizeMatrix() {
-		for (int i = 0; i < this.size; i++) {
-			double sum = sumAll(i);
-			if (sum !=0) {	
-				for (int j = 0; j < matrix[i].length; j++) {
-					matrix[i][j] /= sum;
-				}
-			}
-		}
-	}
-
-	private double sumAll(int pos) {
-		double sum = 0;
-		for(int i = 0; i < 128; sum += matrix[pos][i++]);
-		return sum;
+		matrix.normalize();
 	}
 	
 	public int nextNote(Integer previos[]) {
 		double rnd = Math.random();
     	double sum = 0;
 		int index = createIndex(previos);
-		double max = findMaxElement(index);
-		double min = findMinPositiveElement(index); 
+		double max = matrix.getMaxElement(index);
+		double min = matrix.getMinElement(index); 
 	    sum = rnd * (max - min) + min;
 	    ArrayList<Double> temp = new ArrayList<Double>();
-		for(int j = 0; j < matrix[0].length; j++) {
-			temp.add( Math.pow(matrix[index][j] - sum, 2));
+		for(int j = 0; j < matrix.getJSize(); j++) {
+			temp.add( Math.pow((sum - matrix.get(index, j)), 2));
 		}
 		int newIndex = findIndexMinValue(temp);
 		return newIndex;
-	}	 
-	
-	private double findMinPositiveElement(int index) {
-		double min = 1;
-		for ( int i = 1; i < matrix[index].length; i++) {
-		    if ( matrix[index][i] < min && matrix[index][i] > 0) {
-		      min = matrix[index][i];
-		    }
-		}
-		return min;
 	}
-
+	
 	private int findIndexMinValue(ArrayList<Double> temp) {
 		double currentValue = temp.get(0); 
 		int smallestIndex = 0;
@@ -86,17 +65,5 @@ public class Score {
 		}
 		return smallestIndex;
 	}
-
-	private double findMaxElement(int index) {
-		double max = matrix[index][0];
-		for ( int i = 1; i < matrix[index].length; i++) {
-		    if ( matrix[index][i] > max) {
-		      max = matrix[index][i];
-		    }
-		}
-		return max;
-	}
-
-	
 	 
 }

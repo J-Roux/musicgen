@@ -12,7 +12,7 @@ public class Main {
 	private static Score teachNewScoreObj() {
 		Score score = new Score(Config.learnerMemory);
 		
-		Teacher.teach(Config.learningSaples[7], score);
+		Teacher.teach(Config.learningSaples[8], score);
 		
 		score.normalizeMatrix();
 		return score;		
