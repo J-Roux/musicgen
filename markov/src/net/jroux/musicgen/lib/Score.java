@@ -20,39 +20,40 @@ public class Score {
 		this.matrix = new Matrix(size, N);
 	}
 	
-	public void updateWeights(Integer previos[]){
-		int i = createIndex(Arrays.copyOfRange(previos, 0, previos.length - 1));
-		int j = previos[previos.length - 1];
+	public void updateWeights(Integer prev[]){
+		int i = createIndex(Arrays.copyOfRange(prev, 0, prev.length - 1));
+		int j = prev[prev.length - 1];
 		if(matrix.get(i, j) > 0)
 			matrix.set(i, j , matrix.get(i, j) + 1);
 		else
 			matrix.set(i, j, 1);
 	}
 
-	private int createIndex(Integer[] previos) {
+	private int createIndex(Integer[] prev) {
 		int temp = 0;
-		for (int i = 0; i < previos.length - 1; i++) {
-			temp += (N - 1) * previos[i];
+		for (int i = 0; i < prev.length - 1; i++) {
+			temp += (N - 1) * prev[i];
 		}
-		temp += previos[previos.length - 1];
+		temp += prev[prev.length - 1];
 		return temp ;
 	}
-	
+
 	public void normalizeMatrix() {
 		matrix.normalize();
 	}
 	
-	public int nextNote(Integer previos[]) {
+	public int nextNote(Integer previous[]) {
 		double rnd = Math.random();
-    	double sum = 0;
-		int index = createIndex(previos);
+    	double sum;
+		int index = createIndex(previous);
+		System.out.println(index);
 		double max = matrix.getMaxElement(index);
 		double min = matrix.getMinElement(index); 
 	    sum = rnd * (max - min) + min;
-	    ArrayList<Double> temp = new ArrayList<Double>();
+	    ArrayList<Double> temp = new ArrayList<>();
 		for(int j = 0; j < matrix.getJSize(); j++) {
 			if(matrix.get(index, j) > 0)
-			  temp.add( Math.pow((sum - matrix.get(index, j)), 2));
+			  temp.add(Math.pow((sum - matrix.get(index, j)), 2));
 			else 
 			  temp.add(-1.0);
 		}

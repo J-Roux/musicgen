@@ -10,11 +10,10 @@ public class SequenceGenerator {
 	}
 	
 	public ArrayList<Integer> generate(int count, Score score) {
-	    ArrayList<Integer> sequence = new ArrayList<Integer>();
-		Integer note = new Integer(0);
+	    ArrayList<Integer> sequence = new ArrayList<>();
 		Integer[] temp = new Integer[notes.size()];
 	    for(int i = 0; i <  count;  i++) {
-	    	note = score.nextNote(notes.toArray(temp));
+	    	int note = score.nextNote(notes.toArray(temp));
 	    	sequence.add(note);
 	    	notes.add(note);
 	    	notes.remove(0);	    	
