@@ -18,5 +18,5 @@ public class Config {
 	
 	static int sampleCount = 1;
 	
-	static int learnerMemory = 3;
+	static int learnerMemory = 2;
 }

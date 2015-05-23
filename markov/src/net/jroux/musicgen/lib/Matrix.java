@@ -1,11 +1,11 @@
 package net.jroux.musicgen.lib;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Hashtable;
 
 public class Matrix {
 	
-	private ArrayList<ArrayList<Double>> matrix;
+	private Hashtable<Integer, Double> matrix;
 	
 	private ArrayList<Double> maxCache;
 	
@@ -16,9 +16,7 @@ public class Matrix {
 	private int jSize;
 	
 	public Matrix(int iSize, int jSize) {
-		matrix = new ArrayList<ArrayList<Double>>();
-		for(int i = 0; i < iSize; i++)
-			matrix.add(new ArrayList<Double>(Collections.nCopies(jSize, 0.0)));
+		matrix = new Hashtable<Integer, Double>();
 		this.iSize = iSize;
 		this.jSize = jSize;
 		initCache();
@@ -33,20 +31,33 @@ public class Matrix {
 		}
 	}
 	
+	private int getKey(int i, int j) {
+		return i * jSize + j; 
+	}
+	
 	public double get(int i, int j) {
-		return matrix.get(i).get(j).doubleValue();
+		int key = getKey(i, j);
+		if(matrix.containsKey(key)) {
+		   return matrix.get(key);
+		}
+		return -1;
 	}
 	
 	public void set(int i, int j, double value) {
-		matrix.get(i).set(j, value);
+		int key = getKey(i, j);
+		if(matrix.containsKey(key)) {
+			matrix.replace(key, matrix.get(key) ,value);
+		}
+		matrix.put(key, value);
 	}
 	
 	public void normalize() {
 		for(int i = 0; i < iSize; i++) {
 			double sum = sum(i);
-			if(sum != 0) {
+			if(sum > 0) {
 				for (int j = 0; j < jSize; j++) {
-					this.set(i, j, this.get(i, j) / sum);
+					if(this.get(i, j) > 0)
+						this.set(i, j, this.get(i, j) / sum);
 				}
 			}
 		}
@@ -54,8 +65,8 @@ public class Matrix {
 	
 	private double sum(int pos) {
 		double sum = 0;
-		for(double val : matrix.get(pos)) {
-			sum += val;
+		for(int i = 0; i < jSize; i++) {
+			sum += this.get(pos, i);
 		}
 		return sum;
 	}
@@ -75,10 +86,15 @@ public class Matrix {
 	}
 	
 	private double findMaxElement(int pos) {
-		double max = this.get(pos, 0);
-		for(double val : matrix.get(pos)) {
-			if(val > max) {
-				max = val;
+		double max = 0 ;
+		for(int i = 0; i < jSize; i++){
+			if(this.get(pos, i) > 0) {
+				max = this.get(pos, i);
+			}
+		}
+		for(int i = 0; i < jSize; i++) {
+			if(this.get(pos, i) > max) {
+				max = this.get(pos, i);
 			}
 		}
 		return max;
@@ -86,9 +102,9 @@ public class Matrix {
 	
 	private double findMinPositiveElement(int pos){
 		double min = 1;
-		for(double val : matrix.get(pos)) {
-			if(val < min && val > 0) {
-				min = val;
+		for(int i = 0; i < jSize; i++) {
+			if(this.get(pos, i) < min && this.get(pos, i) > 0) {
+				min = this.get(pos, i);
 			}
 		}
 		return min;
