@@ -1,6 +1,7 @@
 package net.jroux.musicgen.lib;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Matrix {
 	
@@ -17,7 +18,7 @@ public class Matrix {
 	public Matrix(int iSize, int jSize) {
 		matrix = new ArrayList<ArrayList<Double>>();
 		for(int i = 0; i < iSize; i++)
-			matrix.add(new ArrayList<Double>(jSize));
+			matrix.add(new ArrayList<Double>(Collections.nCopies(jSize, 0.0)));
 		this.iSize = iSize;
 		this.jSize = jSize;
 		initCache();
