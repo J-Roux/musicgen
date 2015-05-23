@@ -50,5 +50,10 @@ public class Config {
 	/**
 	 * Default length of a {@link net.jroux.musicgen.lib.utils.MidiPlayer} note.
 	 */
-	public static int defaultPlayerBpm = 300;
+	public static int defaultPlayerBpm = 400;
+
+	/**
+	 * Default leading track number;
+	 */
+	public static int defaultLeadingVoice = 1;
 }

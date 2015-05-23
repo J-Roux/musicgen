@@ -1,5 +1,7 @@
 package net.jroux.musicgen.lib.utils;
 
+import net.jroux.musicgen.lib.helper.Config;
+
 import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
@@ -28,13 +30,13 @@ public class MidiReader {
     }
 
     /**
-     * Reads the first voice (track) of a midi file and returns a
+     * Reads the default voice (track) of a midi file and returns a
      * sequence of notes within that voice as an array list of integers.
      * @param relativePath Path to a midi file relative to the execution directory.
      * @return {@link ArrayList} of integer notes.
      */
     public static ArrayList<Integer> readMidiFile(String relativePath) {
-        return readMidiFile(relativePath, 0);
+        return readMidiFile(relativePath, Config.defaultLeadingVoice);
     }
 
     /**

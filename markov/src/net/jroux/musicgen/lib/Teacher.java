@@ -1,29 +1,27 @@
 package net.jroux.musicgen.lib;
 
 import net.jroux.musicgen.lib.helper.Config;
-import net.jroux.musicgen.lib.utils.MidiReader;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
- *  Static teacher that is used to teach Markov's chain based on an input midi file.
+ *  Static teacher that is used to teach Markov's chain based on a list of notes.
  */
 public class Teacher {
 	/**
 	 * Performs teaching of a {@link Score} object based on a given midi file.
-	 * @param filePath Path to a learning file relative to an execution directory.
+	 * @param trainingSample Array list of integer notes to learn on.
 	 * @param score Markov's chain to teach.
 	 */
-	public static void teach(String filePath, Score score) {
-		ArrayList<Integer> notes = MidiReader.readMidiFile(filePath);
-		ArrayList<Integer> teacherMemory = notes.stream()
+	public static void teach(ArrayList<Integer> trainingSample, Score score) {
+		ArrayList<Integer> teacherMemory = trainingSample.stream()
 				.limit(Config.learnerMemory)
 				.collect(Collectors.toCollection(ArrayList::new));
 
-		for (int note : notes) {
+		for (int note : trainingSample) {
 			propagateTeacherMemory(teacherMemory, note);
-			score.updateWeights((Integer[]) teacherMemory.toArray());
+			score.updateWeights(teacherMemory.toArray(new Integer[teacherMemory.size()]));
 		}
 	}
 
