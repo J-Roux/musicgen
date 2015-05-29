@@ -1,7 +1,8 @@
 package net.jroux.musicgen.lib.utils;
 
 import net.jroux.musicgen.lib.helper.Config;
-import sun.plugin.dom.exception.InvalidStateException;
+
+//import sun.plugin.dom.exception.InvalidStateException;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
@@ -32,9 +33,9 @@ public class MidiPlayer {
             synthesizer.open();
             targetChannel = synthesizer.getChannels()[0];
         } catch (MidiUnavailableException e) {
-            InvalidStateException exception = new InvalidStateException("Unable to initialize midi synthesizer or find channel.");
-            exception.initCause(e);
-            throw exception;
+  //          InvalidStateException exception = new InvalidStateException("Unable to initialize midi synthesizer or find channel.");
+  //         exception.initCause(e);
+  //          throw exception;
         }
     }
 

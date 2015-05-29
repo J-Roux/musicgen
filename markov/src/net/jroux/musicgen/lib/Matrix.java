@@ -40,7 +40,7 @@ public class Matrix {
 		if(matrix.containsKey(key)) {
 		   return matrix.get(key);
 		}
-		return -1;
+		return 0;
 	}
 	
 	public void set(int i, int j, double value) {
@@ -52,6 +52,7 @@ public class Matrix {
 	}
 	
 	public void normalize() {
+		System.out.println(this.matrix.toString());
 		for(int i = 0; i < iSize; i++) {
 			double sum = sum(i);
 			if(sum > 0) {
@@ -72,14 +73,14 @@ public class Matrix {
 	}
 	
 	public double getMaxElement(int pos) {
-		if (maxCache.get(pos) - 1.0 < 0.0001) {
+		if (maxCache.get(pos) - 1.0 < 0.0000001) {
 			maxCache.set(pos, findMaxElement(pos));
 		}
 		return maxCache.get(pos);
 	}
 
 	public double getMinElement(int pos) {
-		if (minCache.get(pos) - 1.0 < 0.0001) {
+		if (minCache.get(pos) - 1.0 < 0.0000001) {
 			minCache.set(pos, this.findMinPositiveElement(pos));
 		}
 		return minCache.get(pos);
@@ -107,6 +108,8 @@ public class Matrix {
 				min = this.get(pos, i);
 			}
 		}
+		if(min == 1)
+			return 0.0;
 		return min;
 	}
 	

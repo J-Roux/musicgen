@@ -16,12 +16,13 @@ public class Teacher {
 	 */
 	public static void teach(ArrayList<Integer> trainingSample, Score score) {
 		ArrayList<Integer> teacherMemory = trainingSample.stream()
-				.limit(Config.learnerMemory)
+				.limit(Config.learnerMemory + 1)
 				.collect(Collectors.toCollection(ArrayList::new));
 
+		System.out.println(trainingSample.toString());
 		for (int note : trainingSample) {
-			propagateTeacherMemory(teacherMemory, note);
 			score.updateWeights(teacherMemory.toArray(new Integer[teacherMemory.size()]));
+			propagateTeacherMemory(teacherMemory, note);
 		}
 	}
 

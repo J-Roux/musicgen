@@ -46,19 +46,27 @@ public class Score {
 		double rnd = Math.random();
     	double sum;
 		int index = createIndex(previous);
-		System.out.println(index);
 		double max = matrix.getMaxElement(index);
-		double min = matrix.getMinElement(index); 
-	    sum = rnd * (max - min) + min;
-	    ArrayList<Double> temp = new ArrayList<>();
+		double min = matrix.getMinElement(index);
+		if(max != 1) {
+			sum = rnd * (max - min) + min;
+			ArrayList<Double> temp = new ArrayList<>();
+			for(int j = 0; j < matrix.getJSize(); j++) {
+				if(matrix.get(index, j) > 0)
+					temp.add(Math.pow((sum - matrix.get(index, j)), 2));
+				else 
+					temp.add(100.0);
+			}
+			int newIndex = findIndexMinValue(temp);
+			System.out.println(newIndex);		
+			return newIndex;
+		} 
 		for(int j = 0; j < matrix.getJSize(); j++) {
-			if(matrix.get(index, j) > 0)
-			  temp.add(Math.pow((sum - matrix.get(index, j)), 2));
-			else 
-			  temp.add(-1.0);
+			if(matrix.get(index, j) == 1) {
+				return j;
+			}
 		}
-		int newIndex = findIndexMinValue(temp);
-		return newIndex;
+		return -3;
 	}
 	
 	private int findIndexMinValue(ArrayList<Double> temp) {

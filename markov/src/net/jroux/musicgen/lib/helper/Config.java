@@ -27,7 +27,7 @@ public class Config {
 	/**
 	 * Length of a note sequence to generate from with {@link SequenceGenerator}.
 	 */
-	public static int sequenceLength = 10;
+	public static int sequenceLength = 50;
 
 	/**
 	 * Amount of samples to use for the learning process.
